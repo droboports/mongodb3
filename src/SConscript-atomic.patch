@@ -1,0 +1,25 @@
+--- src/mongo/SConscript.orig	2015-05-11 13:37:28.158727461 -0700
++++ src/mongo/SConscript	2015-05-13 10:17:47.000000000 -0700
+@@ -352,6 +352,11 @@
+ 
+ extraCommonLibdeps = []
+ 
++env.Library('linux-atomic', ['linux-atomic.c'])
++extraCommonLibdeps.append('linux-atomic')
++env.Library('linux-atomic-64bit', ['linux-atomic-64bit.c'])
++extraCommonLibdeps.append('linux-atomic-64bit')
++
+ if env['MONGO_BUILD_SASL_CLIENT']:
+     saslLibs = ['sasl2']
+     if env['PYSYSPLATFORM'] == "win32":
+@@ -1317,8 +1322,8 @@
+ installBinary( env, "mongod" )
+ installBinary( env, "mongos" )
+ 
+-if shellEnv is not None:
+-    installBinary( shellEnv, "mongo" )
++#if shellEnv is not None:
++#    installBinary( shellEnv, "mongo" )
+ 
+ env.Alias( "core", [ '#/%s' % b for b in [ add_exe( "mongo" ), add_exe( "mongod" ), add_exe( "mongos" ) ] ] )
+ 
